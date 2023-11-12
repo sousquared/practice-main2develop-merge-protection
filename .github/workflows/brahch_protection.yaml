@@ -1,0 +1,17 @@
+name: Branch Protection
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  check-merge-direction:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check merge direction
+        run: |
+          if [ "${{ github.base_ref }}" = "develop" ] && [ "${{ github.head_ref }}" = "main" ]; then
+            echo "Merging from main to develop is not allowed!"
+            exit 1
+          fi
